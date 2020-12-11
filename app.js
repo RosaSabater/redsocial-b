@@ -1,5 +1,8 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
+const {validameConfig} = require("validame");
+validameConfig.language = "es";
 
 
 // CORS

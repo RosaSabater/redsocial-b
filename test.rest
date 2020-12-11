@@ -1,7 +1,7 @@
 # @url = 
 @url = http://localhost:3000
 
-################################################## USUARIOS
+## USUARIOS
 POST {{url}}/registro
 Content-Type: application/json
 
@@ -18,17 +18,22 @@ Content-Type: application/json
 
 ###
 # @name resLogin
-POST {{url}}/user/login
+POST {{url}}/login
 Content-Type: application/json
 
 {
     "email": "rosa@gmail.com",
-    "password": "Abc123"
+    "password": "12345678"
 }
+
 
 ###
 @token = {{resLogin.response.body.token}}
-POST {{url}}/user/logout
-Authorization: {{token}}
 
+POST {{url}}/logout
+Authorization: {{token}}
+###
+
+DELETE {{url}}/delete
+Authorization: {{token}}
 ###
