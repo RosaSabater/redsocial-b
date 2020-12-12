@@ -12,27 +12,25 @@ const UsuarioController = {
 
 
             // validación de campos
-            if ((validame(nick, {min: 3, max: 50, allow: "aA 1 _"})) !== "") 
-            return res.status(400).send({ message: 'Algo ha fallado.'});
+            let error = validame(nick, {req: 2, min: 3, max: 50, allow: "aA 1 _"});
+            if (error) {
+                return res.status(400).send({ message: "Nick: " + error  });
+            };
 
-            if ((validame(nombreCuenta, {min: 3, max: 30, allow: "aA 1"})) !== "") 
-            return res.status(400).send({ message: 'Algo ha fallado.'});
+            error = validame(nombreCuenta, {req: 2, min: 3, max: 30, allow: "aA 1"});
+            if (error) {
+                return res.status(400).send({ message: "Nombre de cuenta: " +error });
+            };
 
-            if ((validame(email, {min: 3, max: 20, allow: "email"})) !== "") 
-            return res.status(400).send({ message: 'Algo ha fallado.'});
+            error = validame(email, {req: 2, min: 3, max: 20, allow: "email"});
+            if (error) {
+                return res.status(400).send({ message: "Email: " + error });
+            };
 
-            if ((validame(password, {min: 6, allow: "aA 1 ñÑ"})) !== "") 
-            return res.status(400).send({ message: 'Algo ha fallado.'});
-
-            if ((validame(biografia, {max: 160, allow: "aA 1 _ ñÑ !"})) !== "") 
-            return res.status(400).send({ message: 'Algo ha fallado.'});
-
-            if ((validame(pais, {max: 30, allow: "aA 1 _ ñÑ !"})) !== "") 
-            return res.status(400).send({ message: 'Algo ha fallado.'});
-
-            if ((validame(ciudad, {max: 30, allow: "aA 1 _ ñÑ !"})) !== "") 
-            return res.status(400).send({ message: 'Algo ha fallado.'});
-
+            error = validame(password, {req: 2, min: 6, allow: "aA 1 ñÑ"});
+            if (error) {
+                return res.status(400).send({ message: "Contraseña: " +error });
+            };
 
             // encriptación de password
             password = await bcrypt.hash(password, 10);
@@ -63,7 +61,15 @@ const UsuarioController = {
         try {
             let usuarioEncontrado = await UsuarioModel.findOne({ email: req.body.email });
 
-            await bcrypt.compare(req.body.password, usuarioEncontrado.password);
+            if (!usuarioEncontrado) {
+                return res.status(401).send({message: 'Credenciales invalidas.'})
+            };
+
+            let passCorrecta = await bcrypt.compare(req.body.password, usuarioEncontrado.password);
+
+            if (!passCorrecta) {
+                return res.status(401).send({message: 'Credenciales invalidas.'})
+            };
 
             const token = jwt.sign({
                 _id: usuarioEncontrado._id,
