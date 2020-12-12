@@ -6,12 +6,12 @@ POST {{url}}/registro
 Content-Type: application/json
 
 {
-    "nick": "Rosa",
-    "nombreCuenta": "soyRosa",
-    "email": "rosa@gmail.com",
+    "nick": "Adrian",
+    "nombreCuenta": "soyIcaruk",
+    "email": "adrian@gmail.com",
     "password": "12345678",
     "biografia": "Full Stack Developer",
-    "avatar": "https://1.bp.blogspot.com/-79DdxzZkDog/T76QV6v5IuI/AAAAAAAAAEY/6DzpGZzsmfA/s320/homerocatolico_456_336.jpg",
+    "avatar": "https://imgur.com/AxWdS6U.png",
     "pais": "España",
     "ciudad": "Valencia"
 }
@@ -22,7 +22,7 @@ POST {{url}}/login
 Content-Type: application/json
 
 {
-    "email": "rosa@gmail.com",
+    "email": "adrian@gmail.com",
     "password": "12345678"
 }
 
@@ -37,3 +37,26 @@ Authorization: {{token}}
 DELETE {{url}}/delete
 Authorization: {{token}}
 ###
+
+POST {{url}}/post
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "mensaje": "Post de prueba Adrian!"
+}
+###
+
+POST {{url}}/getPosts
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+POST {{url}}/getMisPost
+Content-Type: application/json
+Authorization: {{token}}
+###
+
+DELETE {{url}}/borrarPost
+Content-Type: application/json
+Authorization: {{token}}

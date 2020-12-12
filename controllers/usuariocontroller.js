@@ -104,7 +104,9 @@ const UsuarioController = {
 
     async Logout(req, res) {
         try {
-            await UsuarioModel.findOneAndUpdate({ _id: req.usuario._id }, { token: null });
+            const token = req.headers.authorization;
+
+            await UsuarioModel.findOneAndUpdate({ token: token }, { token: null });
 
             res.send({ message: 'Sesion finalizada.' });
 

@@ -12,8 +12,7 @@ const PostSchema = new mongoose.Schema({
         require: true
     },
     fechaCreacion: {
-        type: Date,
-        require: true
+        type: Date
     },
     numeroRepost: {
         type: Number,

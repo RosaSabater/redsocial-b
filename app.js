@@ -30,7 +30,7 @@ app.options('/*', (req, res) => res.send());
 
 // Routes
 app.use(require("./routes/usuariorouter"));
-// app.use(require("./routes/usuariorouter"));
+app.use(require("./routes/postrouter"));
 // app.use(require("./routes/usuariorouter"));
 
 
