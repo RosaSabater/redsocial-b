@@ -9,7 +9,7 @@ const PostController = {
         try {
             let { mensaje } = req.body;
 
-            let error = validame(mensaje, { req: 2, min: 1, max: 280, allow: "aA 1 _ ñÑ !" });
+            let error = validame(mensaje, { req: 2, min: 1, max: 280, allow: "aA 1 2 _ ñÑ !" });
             if (error) {
                 return res.status(400).send({ message: "Post: " + error });
             };

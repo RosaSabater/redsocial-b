@@ -1,4 +1,5 @@
 const UsuarioModel = require('../models/Usuario');
+const PostModel = require('../models/Post');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const {validame} = require("validame");
@@ -119,7 +120,11 @@ const UsuarioController = {
 
     async Delete(req, res) {
         try {
-            await UsuarioModel.findOneAndDelete({ _id: req.usuario._id });
+            let usuario = await UsuarioModel.findOneAndDelete({ _id: req.usuario._id });
+
+            if (usuario) {
+                await PostModel.deleteMany({ autor: ObjectID(usuario._id) });
+            }
 
             res.send({ message: "Usuario eliminado satisfactoriamente." })
 
