@@ -22,7 +22,7 @@ POST {{url}}/login
 Content-Type: application/json
 
 {
-    "email": "adrian@gmail.com",
+    "email": "rosa@gmail.com",
     "password": "12345678"
 }
 
@@ -57,6 +57,15 @@ Content-Type: application/json
 Authorization: {{token}}
 ###
 
-DELETE {{url}}/borrarPost
+POST {{url}}/borrarPost
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "_id": "5fd506ae3acfb82c14afe270"
+}
+###
+
+GET {{url}}/perfil
 Content-Type: application/json
 Authorization: {{token}}

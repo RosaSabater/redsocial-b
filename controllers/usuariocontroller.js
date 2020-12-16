@@ -3,6 +3,7 @@ const PostModel = require('../models/Post');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const {validame} = require("validame");
+const { ObjectId } = require('mongodb');
 
 const UsuarioController = {
 
@@ -123,7 +124,7 @@ const UsuarioController = {
             let usuario = await UsuarioModel.findOneAndDelete({ _id: req.usuario._id });
 
             if (usuario) {
-                await PostModel.deleteMany({ autor: ObjectID(usuario._id) });
+                await PostModel.deleteMany({ autor: ObjectId(usuario._id) });
             }
 
             res.send({ message: "Usuario eliminado satisfactoriamente." })
@@ -133,6 +134,7 @@ const UsuarioController = {
             res.status(500).send({ message: "No se ha podido eliminar el usuario." })
         }
     },
+
 };
 
 module.exports = UsuarioController;

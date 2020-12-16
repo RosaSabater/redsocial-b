@@ -18,7 +18,7 @@ const PostController = {
                 return res.status(401).send({ message: "Ha ocurrido un error." })
             }
 
-            await PostModel.create({
+            let postCreado = await PostModel.create({
                 mensaje,
                 autor: ObjectId(req.usuario._id),
                 fechaCreacion: new Date,
@@ -29,7 +29,8 @@ const PostController = {
                 menciones: []
             });
 
-            res.send({ message: 'Post publicado correctamente.' });
+
+            res.send({ message: 'Post publicado correctamente.', objetoPost: postCreado });
 
         } catch (error) {
             console.error(error);
@@ -129,7 +130,9 @@ const PostController = {
     // borrar un post en concreto
     async borrarPost(req, res) {
         try {
-            await PostModel.findOneAndDelete({ autor: req.usuario._id });
+            let {_id} = req.body;
+
+            await PostModel.findOneAndDelete({ _id: _id });
 
             res.send({ message: "Post eliminado satisfactoriamente." })
 
