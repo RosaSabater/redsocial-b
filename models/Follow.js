@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
-const ObjectId = mongoose.Types.ObjectId;
 
 const FollowSchema = new mongoose.Schema({
 
     origen: {
-        type: ObjectId,
+        type: String,
         require: true
     },
     destino: {
-        type: ObjectId,
+        type: String,
         require: true
     }
 });

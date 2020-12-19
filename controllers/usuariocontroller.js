@@ -123,7 +123,9 @@ const UsuarioController = {
         try {
             let usuario = await UsuarioModel.findOneAndDelete({ _id: req.usuario._id });
 
+            console.log(usuario);
             if (usuario) {
+                console.log('entro')
                 await PostModel.deleteMany({ autor: ObjectId(usuario._id) });
             }
 
@@ -134,6 +136,24 @@ const UsuarioController = {
             res.status(500).send({ message: "No se ha podido eliminar el usuario." })
         }
     },
+
+    async Perfil(req,res) {
+        try {
+            let { nombreCuenta } = req.body;
+
+            let usuario = await UsuarioModel.findOne({nombreCuenta: nombreCuenta}, 
+                {
+                    token: 0,
+                    password: 0
+                });
+
+                res.send(usuario);
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ message: "No se ha podido ver el perfil de usuario." })
+        }
+    }
 
 };
 

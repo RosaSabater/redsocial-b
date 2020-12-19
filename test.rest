@@ -52,6 +52,15 @@ Content-Type: application/json
 Authorization: {{token}}
 ###
 
+POST {{url}}/getPosts
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "nombreCuentaAutor": "soyIcaruk"
+}
+###
+
 POST {{url}}/getMisPost
 Content-Type: application/json
 Authorization: {{token}}
@@ -69,3 +78,48 @@ Authorization: {{token}}
 GET {{url}}/perfil
 Content-Type: application/json
 Authorization: {{token}}
+###
+
+POST {{url}}/darFollow
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "destino": "soyIcaruk"
+}
+###
+
+POST {{url}}/quitarFollow
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "destino": "soyIcaruk"
+}
+###
+
+POST {{url}}/comprobarFollow
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "destino": "soyIcaruk"
+}
+###
+
+POST {{url}}/darLike
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "destino": "5fd90459c9e4f91ee406f0f1"
+}
+###
+
+POST {{url}}/quitarLike
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "destino": "5fd90459c9e4f91ee406f0f1"
+}

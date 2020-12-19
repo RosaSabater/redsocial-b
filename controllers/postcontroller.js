@@ -1,6 +1,7 @@
 const PostModel = require('../models/Post');
 const { validame } = require('validame');
 const { ObjectId } = require('mongodb');
+const UsuarioModel = require('../models/Usuario');
 
 const PostController = {
 
@@ -43,38 +44,77 @@ const PostController = {
     async getPosts(req, res) {
 
         try {
-            const resAggregate = await PostModel.aggregate(
-                [
-                    // {
-                    //     '$match': {
-                    //         'autor': new ObjectId('5fd3c9cf731f5f5bac709605')
-                    //     }
-                    // },
-                     {
-                        '$lookup': {
-                            'from': 'usuarios',
-                            'localField': 'autor',
-                            'foreignField': '_id',
-                            'as': 'autor'
+            let { nombreCuentaAutor } = req.body;
+
+            let resAggregate;
+
+            if (nombreCuentaAutor) {
+
+                // convierto de nombreCuenta a _id
+                let respuestaUsuario = await UsuarioModel.findOne({ nombreCuenta: nombreCuentaAutor }, { _id: 1 })
+                let _id = respuestaUsuario._id;
+
+                resAggregate = await PostModel.aggregate(
+                    [
+                        {
+                            '$match': {
+                                'autor': ObjectId(_id)
+                            }
+                        },
+                        {
+                            '$lookup': {
+                                'from': 'usuarios',
+                                'localField': 'autor',
+                                'foreignField': '_id',
+                                'as': 'autor'
+                            }
+                        }, {
+                            '$unwind': {
+                                'path': '$autor'
+                            }
+                        }, {
+                            '$project': {
+                                'autor.password': 0,
+                                'autor.pais': 0,
+                                'autor.ciudad': 0,
+                                'autor.biografia': 0,
+                                'autor.fechaCreacion': 0,
+                                'autor.email': 0,
+                                'autor.token': 0,
+                                'autor.__v': 0
+                            }
                         }
-                    }, {
-                        '$unwind': {
-                            'path': '$autor'
+                    ]
+                )
+            } else {
+                resAggregate = await PostModel.aggregate(
+                    [
+                        {
+                            '$lookup': {
+                                'from': 'usuarios',
+                                'localField': 'autor',
+                                'foreignField': '_id',
+                                'as': 'autor'
+                            }
+                        }, {
+                            '$unwind': {
+                                'path': '$autor'
+                            }
+                        }, {
+                            '$project': {
+                                'autor.password': 0,
+                                'autor.pais': 0,
+                                'autor.ciudad': 0,
+                                'autor.biografia': 0,
+                                'autor.fechaCreacion': 0,
+                                'autor.email': 0,
+                                'autor.token': 0,
+                                'autor.__v': 0
+                            }
                         }
-                    }, {
-                        '$project': {
-                            'autor.password': 0,
-                            'autor.pais': 0,
-                            'autor.ciudad': 0,
-                            'autor.biografia': 0,
-                            'autor.fechaCreacion': 0,
-                            'autor.email': 0,
-                            'autor.token': 0,
-                            'autor.__v': 0
-                        }
-                    }
-                ]
-            )
+                    ]
+                )
+            }
 
             res.send(resAggregate);
         } catch (error) {
@@ -84,53 +124,11 @@ const PostController = {
 
     },
 
-    async getMisPost(req,res) {
-
-        try {
-            const resAggregate = await PostModel.aggregate(
-                [
-                    {
-                        '$match': {
-                            'autor': new ObjectId(req.usuario._id)
-                        }
-                    } , {
-                        '$lookup': {
-                            'from': 'usuarios',
-                            'localField': 'autor',
-                            'foreignField': '_id',
-                            'as': 'autor'
-                        }
-                    }, {
-                        '$unwind': {
-                            'path': '$autor'
-                        }
-                    }, {
-                        '$project': {
-                            'autor.password': 0,
-                            'autor.pais': 0,
-                            'autor.ciudad': 0,
-                            'autor.biografia': 0,
-                            'autor.fechaCreacion': 0,
-                            'autor.email': 0,
-                            'autor.token': 0,
-                            'autor.__v': 0
-                        }
-                    }
-                ]
-            )
-
-            res.send(resAggregate);
-        } catch (error) {
-            console.error(error);
-            res.status(500).send({ message: 'Ha ocurrido un error, inténtelo más tarde.' })
-        }
-    },
-
-
+    
     // borrar un post en concreto
     async borrarPost(req, res) {
         try {
-            let {_id} = req.body;
+            let { _id } = req.body;
 
             await PostModel.findOneAndDelete({ _id: _id });
 
