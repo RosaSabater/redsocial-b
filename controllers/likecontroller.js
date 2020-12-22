@@ -3,9 +3,21 @@ const LikeModel = require('../models/Like');
 
 const LikeController = {
 
-    async darLike(req,res) {
+    async darLike(req, res) {
         try {
-            await LikeModel.create({origen: req.usuario.nombreCuenta, destino: ObjectId(req.body.destino)});
+            // await LikeModel.create({origen: req.usuario.nombreCuenta, destino: ObjectId(req.body.destino)});
+            await LikeModel.updateOne(
+                {
+                    origen: req.usuario.nombreCuenta, destino: ObjectId(req.body.destino)
+                },
+                {
+                    origen: req.usuario.nombreCuenta, destino: ObjectId(req.body.destino)
+                },
+                {
+                    upsert: true
+                }
+            );
+
 
             res.send({ message: 'Has dado like.' });
         } catch (error) {
@@ -14,9 +26,9 @@ const LikeController = {
         }
     },
 
-    async quitarLike (req,res) {
+    async quitarLike(req, res) {
         try {
-            await LikeModel.deleteOne({origen: req.usuario.nombreCuenta, destino: ObjectId(req.body.destino) });
+            await LikeModel.deleteOne({ origen: req.usuario.nombreCuenta, destino: ObjectId(req.body.destino) });
 
             res.send({ message: 'Has quitado like.' });
         } catch (error) {

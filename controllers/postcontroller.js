@@ -69,8 +69,22 @@ const PostController = {
                                 'as': 'autor'
                             }
                         }, {
+                            '$lookup': {
+                                'from': 'likes',
+                                'localField': '_id',
+                                'foreignField': 'destino',
+                                'as': 'usuariosLike'
+                            }
+                        }, {
                             '$unwind': {
                                 'path': '$autor'
+                            }
+                        }, {
+                            '$lookup': {
+                                'from': 'usuarios',
+                                'localField': 'usuariosLike.origen',
+                                'foreignField': 'nombreCuenta',
+                                'as': 'usuariosLike'
                             }
                         }, {
                             '$project': {
@@ -81,7 +95,15 @@ const PostController = {
                                 'autor.fechaCreacion': 0,
                                 'autor.email': 0,
                                 'autor.token': 0,
-                                'autor.__v': 0
+                                'autor.__v': 0,
+                                'usuariosLike._id': 0,
+                                'usuariosLike.token': 0,
+                                'usuariosLike.password': 0,
+                                'usuariosLike.email': 0,
+                                'usuariosLike.fechaCreacion': 0,
+                                'usuariosLike.pais': 0,
+                                'usuariosLike.ciudad': 0,
+                                'usuariosLike.biografia': 0
                             }
                         }
                     ]
@@ -97,8 +119,22 @@ const PostController = {
                                 'as': 'autor'
                             }
                         }, {
+                            '$lookup': {
+                                'from': 'likes',
+                                'localField': '_id',
+                                'foreignField': 'destino',
+                                'as': 'usuariosLike'
+                            }
+                        }, {
                             '$unwind': {
                                 'path': '$autor'
+                            }
+                        }, {
+                            '$lookup': {
+                                'from': 'usuarios',
+                                'localField': 'usuariosLike.origen',
+                                'foreignField': 'nombreCuenta',
+                                'as': 'usuariosLike'
                             }
                         }, {
                             '$project': {
@@ -109,7 +145,15 @@ const PostController = {
                                 'autor.fechaCreacion': 0,
                                 'autor.email': 0,
                                 'autor.token': 0,
-                                'autor.__v': 0
+                                'autor.__v': 0,
+                                'usuariosLike._id': 0,
+                                'usuariosLike.token': 0,
+                                'usuariosLike.password': 0,
+                                'usuariosLike.email': 0,
+                                'usuariosLike.fechaCreacion': 0,
+                                'usuariosLike.pais': 0,
+                                'usuariosLike.ciudad': 0,
+                                'usuariosLike.biografia': 0
                             }
                         }
                     ]
@@ -124,7 +168,7 @@ const PostController = {
 
     },
 
-    
+
     // borrar un post en concreto
     async borrarPost(req, res) {
         try {
