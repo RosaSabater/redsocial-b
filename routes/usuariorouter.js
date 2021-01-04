@@ -8,6 +8,7 @@ router.post('/login', UsuarioController.Login);
 router.post('/logout', auth, UsuarioController.Logout);
 router.delete('/delete', auth, UsuarioController.Delete);
 router.post('/perfil', auth, UsuarioController.Perfil)
+router.post('/buscar', auth, UsuarioController.Buscar)
 
 
 module.exports = router;

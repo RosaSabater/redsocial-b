@@ -2,7 +2,7 @@ const UsuarioModel = require('../models/Usuario');
 const PostModel = require('../models/Post');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
-const {validame} = require("validame");
+const { validame } = require("validame");
 const { ObjectId } = require('mongodb');
 
 const UsuarioController = {
@@ -14,24 +14,24 @@ const UsuarioController = {
 
 
             // validación de campos
-            let error = validame(nick, {req: 2, min: 3, max: 50, allow: "aA 1 _"});
+            let error = validame(nick, { req: 2, min: 3, max: 50, allow: "aA 1 _" });
             if (error) {
-                return res.status(400).send({ message: "Nick: " + error  });
+                return res.status(400).send({ message: "Nick: " + error });
             };
 
-            error = validame(nombreCuenta, {req: 2, min: 3, max: 30, allow: "aA 1"});
+            error = validame(nombreCuenta, { req: 2, min: 3, max: 30, allow: "aA 1" });
             if (error) {
-                return res.status(400).send({ message: "Nombre de cuenta: " +error });
+                return res.status(400).send({ message: "Nombre de cuenta: " + error });
             };
 
-            error = validame(email, {req: 2, min: 3, max: 20, allow: "email"});
+            error = validame(email, { req: 2, min: 3, max: 20, allow: "email" });
             if (error) {
                 return res.status(400).send({ message: "Email: " + error });
             };
 
-            error = validame(password, {req: 2, min: 6, allow: "aA 1 ñÑ"});
+            error = validame(password, { req: 2, min: 6, allow: "aA 1 ñÑ" });
             if (error) {
-                return res.status(400).send({ message: "Contraseña: " +error });
+                return res.status(400).send({ message: "Contraseña: " + error });
             };
 
             // encriptación de password
@@ -64,13 +64,13 @@ const UsuarioController = {
             let usuarioEncontrado = await UsuarioModel.findOne({ email: req.body.email });
 
             if (!usuarioEncontrado) {
-                return res.status(401).send({message: 'Credenciales invalidas.'})
+                return res.status(401).send({ message: 'Credenciales invalidas.' })
             };
 
             let passCorrecta = await bcrypt.compare(req.body.password, usuarioEncontrado.password);
 
             if (!passCorrecta) {
-                return res.status(401).send({message: 'Credenciales invalidas.'})
+                return res.status(401).send({ message: 'Credenciales invalidas.' })
             };
 
             const token = jwt.sign({
@@ -137,21 +137,57 @@ const UsuarioController = {
         }
     },
 
-    async Perfil(req,res) {
+    async Perfil(req, res) {
         try {
             let { nombreCuenta } = req.body;
 
-            let usuario = await UsuarioModel.findOne({nombreCuenta: nombreCuenta}, 
+            let usuario = await UsuarioModel.findOne({ nombreCuenta: nombreCuenta },
                 {
                     token: 0,
                     password: 0
                 });
 
+            if (!usuario) {
+                res.status(404).send({ message: "Ese usuario no existe." })
+            } else {
                 res.send(usuario);
+            }
 
         } catch (error) {
             console.error(error);
             res.status(500).send({ message: "No se ha podido ver el perfil de usuario." })
+        }
+    },
+
+    async Buscar(req, res) {
+        try {
+            let { busqueda } = req.body;
+            let regex = `.*${busqueda}.*`
+
+            let usuario = await UsuarioModel.find({
+                $or: [
+                    {
+                        nombreCuenta: {
+                            $regex: regex, $options: 'gmi'
+                        }
+                    },
+                    {
+                        nick: {
+                            $regex: regex, $options: 'gmi'
+                        }
+                    }
+                ]
+            },
+                {
+                    token: 0,
+                    password: 0
+                });
+
+
+            res.send(usuario)
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ message: "No se ha encontrado usuarios." })
         }
     }
 

@@ -123,3 +123,12 @@ Authorization: {{token}}
 {
     "destino": "5fd9045dc9e4f91ee406f0f2"
 }
+###
+
+POST {{url}}/buscar
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "busqueda": "a"
+}
