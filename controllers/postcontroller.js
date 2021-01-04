@@ -87,6 +87,10 @@ const PostController = {
                                 'as': 'usuariosLike'
                             }
                         }, {
+                            '$sort': {
+                                fechaCreacion: -1
+                            }
+                        }, {
                             '$project': {
                                 'autor.password': 0,
                                 'autor.pais': 0,
@@ -135,6 +139,10 @@ const PostController = {
                                 'localField': 'usuariosLike.origen',
                                 'foreignField': 'nombreCuenta',
                                 'as': 'usuariosLike'
+                            }
+                        }, {
+                            '$sort': {
+                                fechaCreacion: -1
                             }
                         }, {
                             '$project': {
