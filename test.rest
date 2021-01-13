@@ -1,5 +1,5 @@
-@url = redsocial-b.herokuapp.com
-# @url = http://localhost:3000
+# @url = redsocial-b.herokuapp.com
+@url = http://localhost:3000
 
 ## USUARIOS
 POST {{url}}/registro
@@ -131,4 +131,13 @@ Authorization: {{token}}
 
 {
     "busqueda": "ad"
+}
+###
+
+POST {{url}}/postSeguidos
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "nombreCuenta": "soyRosa"
 }

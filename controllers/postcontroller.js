@@ -2,6 +2,7 @@ const PostModel = require('../models/Post');
 const { validame } = require('validame');
 const { ObjectId } = require('mongodb');
 const UsuarioModel = require('../models/Usuario');
+const FollowModel = require('../models/Follow');
 
 const PostController = {
 
@@ -176,13 +177,44 @@ const PostController = {
 
     },
 
-    // async postSeguidos(req,res) {
-    //     try {
-    //         let {nombreCuentaAutor}
-    //     } catch (error) {
-            
-    //     }
-    // },
+    async postSeguidos(req, res) {
+        try {
+            let { nombreCuenta } = req.body;
+
+            let resAggregate = await FollowModel.aggregate(
+                [
+                    {
+                        '$match': {
+                            'origen': nombreCuenta
+                        }
+                    }, {
+                        '$lookup': {
+                            'from': 'usuarios',
+                            'localField': 'destino',
+                            'foreignField': 'nombreCuenta',
+                            'as': 'usuario'
+                        }
+                    }, {
+                        '$project': {
+                            'usuario._id': 1
+                        }
+                    }
+                ]);
+
+            let arrayIdsSeguidos = (resAggregate[0].usuario).map(usuario => {
+                return ObjectId(usuario._id)
+            });
+
+            let postsSeguidos = await PostModel.find({
+                autor: arrayIdsSeguidos
+            })
+
+            res.send(postsSeguidos);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ message: 'Ha ocurrido un error, inténtelo más tarde.' })
+        }
+    },
 
 
     // borrar un post en concreto
