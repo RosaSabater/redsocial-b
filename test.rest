@@ -1,5 +1,5 @@
-# @url = 
-@url = http://localhost:3000
+@url = redsocial-b.herokuapp.com
+# @url = http://localhost:3000
 
 ## USUARIOS
 POST {{url}}/registro
@@ -130,5 +130,5 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "busqueda": "a"
+    "busqueda": "ad"
 }

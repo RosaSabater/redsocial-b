@@ -176,6 +176,14 @@ const PostController = {
 
     },
 
+    // async postSeguidos(req,res) {
+    //     try {
+    //         let {nombreCuentaAutor}
+    //     } catch (error) {
+            
+    //     }
+    // },
+
 
     // borrar un post en concreto
     async borrarPost(req, res) {
