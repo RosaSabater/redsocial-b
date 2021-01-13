@@ -77,7 +77,7 @@ const UsuarioController = {
                 _id: usuarioEncontrado._id,
                 nombreCuenta: usuarioEncontrado.nombreCuenta,
                 email: usuarioEncontrado.email,
-            }, process.env.secret, { expiresIn: '7d' })
+            }, "6xFKGz3jMsQuvEAk", { expiresIn: '7d' })
 
             usuarioEncontrado.token = token;
             await usuarioEncontrado.replaceOne(usuarioEncontrado);

@@ -1,7 +1,7 @@
 const dbconnect = () => {
 
     const mongoose = require("mongoose");
-    const uri = "mongodb+srv://AdminRedSocial:BrPkfhntv4Ll2wFy@cluster0.x3nrp.mongodb.net/redSocial";
+    const uri = process.env.uri;
 
     mongoose.connect(uri, {
             useNewUrlParser: true,
