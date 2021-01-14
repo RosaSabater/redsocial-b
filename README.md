@@ -41,6 +41,25 @@ Es una red social para una comunidad gamer que usa:
 - Iniciar sesión
 ![Iniciar sesión](https://gyazo.com/aa7a58f47c70f0496c23f3417a6cf848.jpg)
 
+- Página principal
+![Pagina principal](https://gyazo.com/cbca510f8a487c544b5d64f19f503f1a.gif)
+
+- Postear
+![Postear](https://gyazo.com/619c096aae35331454fe6d6766b58c71.gif)
+
+- Perfil
+![Perfil](https://gyazo.com/55b0e8ba59a426085bf6415680a8a479.jpg)
+
+- Likes
+![Likes](https://gyazo.com/0a1a36f3ab0ce979c669af737f3ba547.gif)
+
+- Follows
+![Follows](https://gyazo.com/7f2f73f83395c1dd14e57ccb84fca83c.gif)
+
+- Buscar usuarios
+![Buscar usuarios](https://gyazo.com/968cef40e168039482d5082d72413f27.gif)
+
+
 <br>
 
 
