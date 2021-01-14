@@ -103,7 +103,7 @@ Authorization: {{token}}
 
 <br>
 
-**Posts** 📋
+**POSTS** 📋
 
 <br>
 
@@ -144,7 +144,7 @@ Authorization: {{token}}
 
 <br>
 
-**Follows** 🔭
+**FOLLOWS** 🔭
 
 <br>
 
@@ -188,7 +188,7 @@ Authorization: {{token}}
 
 <br>
 
-**Likes** ✅
+**LIKES** ✅
 
 <br>
 
@@ -212,7 +212,7 @@ Authorization: {{token}}
 
 <br>
 
-**Buscar usuarios** 🔍
+**BUSCAR USUARIOS** 🔍
 
 <br>
 
