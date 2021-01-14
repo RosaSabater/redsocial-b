@@ -201,10 +201,9 @@ const PostController = {
                     }
                 ]);
 
-            let arrayIdsSeguidos = (resAggregate[0].usuario).map(usuario => {
+            let arrayIdsSeguidos = (resAggregate).map(usuario => {
                 return ObjectId(usuario._id)
             });
-
             let postsSeguidos = await PostModel.find({
                 autor: arrayIdsSeguidos
             })

@@ -59,11 +59,7 @@ Authorization: {{token}}
 {
     "nombreCuentaAutor": "soyIcaruk"
 }
-###
 
-POST {{url}}/getMisPost
-Content-Type: application/json
-Authorization: {{token}}
 ###
 
 POST {{url}}/borrarPost

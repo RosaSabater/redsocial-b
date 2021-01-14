@@ -146,13 +146,6 @@ Authorization: {{token}}
 
 <br>
 
-- **POST** /getMisPost/
-```json
-Authorization: {{token}}
-```
-
-<br>
-
 - **POST** /borrarPost/
 ```json
 Authorization: {{token}}
