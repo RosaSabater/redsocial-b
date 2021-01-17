@@ -6,11 +6,9 @@ const tieneAutorizacion = async ( req, res, next ) => {
 
     const token = req.headers.authorization;
 
-    console.log(token)
     try {
         let decoded = jwt.verify( token, "6xFKGz3jMsQuvEAk" ); 
-
-        console.log(decoded)
+        
         req.usuario = decoded; 
         next();
 

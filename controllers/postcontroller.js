@@ -192,23 +192,82 @@ const PostController = {
                             'from': 'usuarios',
                             'localField': 'destino',
                             'foreignField': 'nombreCuenta',
-                            'as': 'usuario'
+                            'as': 'relacion'
                         }
                     }, {
                         '$project': {
-                            'usuario._id': 1
+                            'relacion._id': 1,
+                            "_id": 0
                         }
                     }
                 ]);
 
-            let arrayIdsSeguidos = (resAggregate).map(usuario => {
-                return ObjectId(usuario._id)
+            let arrayIdsSeguidos = (resAggregate).map(relacion => {
+                return ObjectId(relacion.relacion[0]._id)
             });
-            let postsSeguidos = await PostModel.find({
-                autor: arrayIdsSeguidos
-            })
 
-            res.send(postsSeguidos);
+            let resPostAggregate = await PostModel.aggregate(
+                [
+                    {
+                        '$match': {
+                            "autor": {
+                                $in: arrayIdsSeguidos
+                            }
+                        }
+                    },
+                    {
+                        '$lookup': {
+                            'from': 'usuarios',
+                            'localField': 'autor',
+                            'foreignField': '_id',
+                            'as': 'autor'
+                        }
+                    }, {
+                        '$lookup': {
+                            'from': 'likes',
+                            'localField': '_id',
+                            'foreignField': 'destino',
+                            'as': 'usuariosLike'
+                        }
+                    }, {
+                        '$unwind': {
+                            'path': '$autor'
+                        }
+                    }, {
+                        '$lookup': {
+                            'from': 'usuarios',
+                            'localField': 'usuariosLike.origen',
+                            'foreignField': 'nombreCuenta',
+                            'as': 'usuariosLike'
+                        }
+                    }, {
+                        '$sort': {
+                            fechaCreacion: -1
+                        }
+                    }, {
+                        '$project': {
+                            'autor.password': 0,
+                            'autor.pais': 0,
+                            'autor.ciudad': 0,
+                            'autor.biografia': 0,
+                            'autor.fechaCreacion': 0,
+                            'autor.email': 0,
+                            'autor.token': 0,
+                            'autor.__v': 0,
+                            'usuariosLike._id': 0,
+                            'usuariosLike.token': 0,
+                            'usuariosLike.password': 0,
+                            'usuariosLike.email': 0,
+                            'usuariosLike.fechaCreacion': 0,
+                            'usuariosLike.pais': 0,
+                            'usuariosLike.ciudad': 0,
+                            'usuariosLike.biografia': 0
+                        }
+                    }
+                ]
+            );
+
+            res.send(resPostAggregate);
         } catch (error) {
             console.error(error);
             res.status(500).send({ message: 'Ha ocurrido un error, inténtelo más tarde.' })
