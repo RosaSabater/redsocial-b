@@ -162,12 +162,15 @@ const UsuarioController = {
     async Buscar(req, res) {
         try {
             let { busqueda } = req.body;
+
+            // . cualquier caracter , * de 0 a infinito (cualquier caracter)
             let regex = `.*${busqueda}.*`
 
             let usuario = await UsuarioModel.find({
                 $or: [
                     {
                         nombreCuenta: {
+                            // global multiline insensitive
                             $regex: regex, $options: 'gmi'
                         }
                     },
@@ -178,7 +181,7 @@ const UsuarioController = {
                     }
                 ]
             },
-                {
+                { // projection (0 que no me devuelva)
                     token: 0,
                     password: 0
                 });

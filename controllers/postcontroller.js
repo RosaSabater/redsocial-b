@@ -57,19 +57,19 @@ const PostController = {
 
                 resAggregate = await PostModel.aggregate(
                     [
-                        {
+                        { // busco los post donde el autor sea esta id
                             '$match': {
                                 'autor': ObjectId(_id)
                             }
                         },
-                        {
+                        { // traes la información de la colleción usuarios
                             '$lookup': {
                                 'from': 'usuarios',
                                 'localField': 'autor',
                                 'foreignField': '_id',
                                 'as': 'autor'
                             }
-                        }, {
+                        }, { // traes los like que ha recibido este post
                             '$lookup': {
                                 'from': 'likes',
                                 'localField': '_id',
@@ -80,18 +80,18 @@ const PostController = {
                             '$unwind': {
                                 'path': '$autor'
                             }
-                        }, {
+                        }, { // obtienes la información de cada persona que ha dado like
                             '$lookup': {
                                 'from': 'usuarios',
                                 'localField': 'usuariosLike.origen',
                                 'foreignField': 'nombreCuenta',
                                 'as': 'usuariosLike'
                             }
-                        }, {
+                        }, { // ordena por fecha de creación (más nuevos arriba)
                             '$sort': {
                                 fechaCreacion: -1
                             }
-                        }, {
+                        }, { // quitas los campos que no necesitas
                             '$project': {
                                 'autor.password': 0,
                                 'autor.pais': 0,

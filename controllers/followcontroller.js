@@ -26,8 +26,6 @@ const FollowController = {
 
     async comprobarFollow(req,res) {
         try {
-            // let yoTeSigo = await FollowModel.findOne({ origen: req.usuario.nombreCuenta, destino: req.body.destino });
-            // let tuMeSigues = await FollowModel.findOne({ origen: req.body.destino, destino: req.usuario.nombreCuenta });
 
             let respuestaPromesas = await Promise.all([
                 FollowModel.findOne({ origen: req.usuario.nombreCuenta, destino: req.body.destino }),

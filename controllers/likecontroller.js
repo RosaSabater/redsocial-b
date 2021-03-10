@@ -5,7 +5,6 @@ const LikeController = {
 
     async darLike(req, res) {
         try {
-            // await LikeModel.create({origen: req.usuario.nombreCuenta, destino: ObjectId(req.body.destino)});
             await LikeModel.updateOne(
                 {
                     origen: req.usuario.nombreCuenta, destino: ObjectId(req.body.destino)
